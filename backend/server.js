@@ -2,6 +2,7 @@ import express, { urlencoded } from "express";
 import authRoutes from "./routes/auth_routes.js";
 import userRoutes from "./routes/user_routes.js";
 import postRoutes from "./routes/post_routes.js";
+import notificationRoutes from "./routes/notification_routes.js";
 import dotenv from "dotenv";
 import connectMongoDB from "./db/connectMongoDB.js"
 import cookieParser from "cookie-parser";
@@ -24,6 +25,7 @@ app.use(cookieParser());
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/posts", postRoutes);
+app.use("/api/notifications", notificationRoutes);
 
 app.listen(PORT, () => {
     console.log("Server running on port 4000");
