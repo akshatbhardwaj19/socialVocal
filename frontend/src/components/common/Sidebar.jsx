@@ -3,14 +3,38 @@ import { IoNotifications } from "react-icons/io5";
 import { FaUser } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { BiLogOut } from "react-icons/bi";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 
 const Sidebar = () => {
-	const data = {
-		fullName: "John Doe",
-		username: "johndoe",
-		profileImg: "/avatars/boy1.png",
-	};
+	
+	const queryClient = useQueryClient();
 
+	const {mutate: logout} = useMutation({
+        mutationFn: async() => {
+			try {
+				const res = await fetch("/api/auth/logout",{
+					method: "POST",
+				});
+
+				const data = await res.json();
+				if(!res.ok) { throw new Error(data.error || "Something went wrong")}
+
+			} catch (error) {
+				throw new Error(error);
+			}
+		},
+		onSuccess : () => {
+			// toast.success("Logout successful");
+            queryClient.invalidateQueries({queryKey: ['authUser']});
+		},
+		onError : () => {
+			toast.error("Logout failed");
+		}
+	});
+
+	const {data} = useQuery({queryKey:['authUser']});
+	
 	return (
 		<div className='md:flex-[2_2_0] w-18 max-w-52'>
 			<div className='sticky top-0 left-0 h-screen flex flex-col border-r border-gray-700 w-20 md:w-full'>
@@ -62,7 +86,13 @@ const Sidebar = () => {
 								<p className='text-white font-bold text-sm w-20 truncate'>{data?.fullName}</p>
 								<p className='text-slate-500 text-sm'>@{data?.username}</p>
 							</div>
-							<BiLogOut className='w-5 h-5 cursor-pointer' />
+							<BiLogOut className='w-5 h-5 cursor-pointer' 
+								onClick={(e) => {
+									e.preventDefault();
+									console.log("press")
+									logout();
+								}}
+							/>
 						</div>
 					</Link>
 				)}
