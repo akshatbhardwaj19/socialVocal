@@ -11,7 +11,7 @@ const Posts = ({feedType}) => {
               case "forYou":
 				return "/api/posts/all";
 			  case "following":
-				return 	"/api/posts/followingPosts";
+				return "/api/posts/followingPosts";
 			  default:
 				return "/api/posts/all";	
 		 }   
@@ -37,7 +37,7 @@ const Posts = ({feedType}) => {
 	useEffect(() => {
 		refetch();
 	}, [feedType, refetch])
-
+	
 	return (
 		<>
 			{(isLoading || isRefetching) && (
