@@ -134,7 +134,7 @@ export const updateUser = async(req,res) =>{
         
         // password should be null in response(password not updated in db as we do not save).
         user.password = null;
-        res.status(200).json(user);
+        return res.status(200).json(user);
 
     } catch (error) {
         console.log(`Error in updateUser: ${error.message}`);
