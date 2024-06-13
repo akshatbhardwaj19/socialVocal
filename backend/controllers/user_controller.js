@@ -105,7 +105,7 @@ export const updateUser = async(req,res) =>{
               //destroying prev img from cloudinary if already exists
               // https://res.cloudinary.com/dyfqon1v6/image/upload/v1712997552/zmxorcxexpdbh8r0bkjb.png
               // we are extracting id:zmxorcxexpdbh8r0bkjb to destroy.
-              await cloudinary.destroy(user.profileImg.split('/').pop().split('.')[0])
+              await cloudinary.uploader.destroy(user.profileImg.split('/').pop().split('.')[0])
            } 
 
            //uploading new img
@@ -114,7 +114,7 @@ export const updateUser = async(req,res) =>{
         }
         if(coverImg){
             if(user.coverImg){
-                await cloudinary.destroy(user.coverImg.split('/').pop().split('.')[0])
+                await cloudinary.uploader.destroy(user.coverImg.split('/').pop().split('.')[0])
              } 
   
             const uploadedResponse = await cloudinary.uploader.upload(coverImg);
