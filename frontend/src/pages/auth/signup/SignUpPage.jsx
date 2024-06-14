@@ -11,6 +11,7 @@ import { useMutation } from "@tanstack/react-query";
 import toast from  "react-hot-toast";
 
 const SignUpPage = () => {
+	const queryClient = useQueryClient();
 	const [formData, setFormData] = useState({
 		email: "",
 		username: "",
@@ -42,7 +43,8 @@ const SignUpPage = () => {
 			}
 		},
 		onSuccess: () => {
-            toast.success("Acount created successfully");
+                    toast.success("Acount created successfully");
+		    queryClient.invalidateQueries({queryKey:['authUser']});
 		}
 	});
 	
